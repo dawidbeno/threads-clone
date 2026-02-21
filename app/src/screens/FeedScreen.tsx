@@ -24,7 +24,8 @@ function FeedHeader() {
 
 export default function FeedScreen() {
     return (
-        <FlatList 
+        <FlatList
+            style={{ backgroundColor: 'white' }}
             data={mockPosts}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => <PostCard post={item} />}

@@ -33,10 +33,26 @@ Create the base folder structure for the project:
 Install React Navigation and its dependencies:
 - `@react-navigation/native`
 - `@react-navigation/bottom-tabs`
-- `@react-navigation/stack`
+- `@react-navigation/native-stack`
 - `react-native-screens`, `react-native-safe-area-context`
 
 Wrap `App.tsx` with `NavigationContainer`. Verify no errors on startup.
+
+#### Solution:
+| Package | Purpose |
+|---|---|
+| `@react-navigation/native` | Core foundation, provides `NavigationContainer` which wraps your whole app |
+| `@react-navigation/native-stack` | Stack navigator using native iOS/Android primitives — smooth animations and good performance |
+| `@react-navigation/bottom-tabs` | Bottom tab bar navigator |
+| `react-native-screens` | Allows React Navigation to use native screen components instead of plain Views — better memory management |
+| `react-native-safe-area-context` | Handles safe areas (notch, home indicator) so UI doesn't get clipped on modern phones |
+
+Note: using `npx expo install` instead of `npm install` is recommended — it picks versions compatible with your current Expo SDK automatically.
+
+Command:
+```tsx
+npx expo install @react-navigation/native @react-navigation/native-stack @react-navigation/bottom-tabs react-native-screens react-native-safe-area-context
+```
 
 ---
 

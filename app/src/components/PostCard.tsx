@@ -19,25 +19,25 @@ export default function PostCard({ post }: { post: Post }) {
             <View style={styles.buttonsRow}>
                 <TouchableOpacity onPress={() => console.log('Like pressed!')}>
                     <View style={styles.row}>
-                        <Ionicons name="heart-outline" size={22} color="gray" />
+                        <Ionicons name="heart-outline" size={20} color="gray" />
                         <Text style={styles.stats}>{post.likesCount}</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => console.log('Comments pressed!')}>
                     <View style={styles.row}>
-                        <Ionicons name="chatbubble-outline" size={22} color="gray" />
+                        <Ionicons name="chatbubble-outline" size={20} color="gray" />
                         <Text style={styles.stats}>{post.commentsCount}</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => console.log('Reposts pressed!')}>
                     <View style={styles.row}>
-                        <Ionicons name="repeat-outline" size={22} color="gray" />
+                        <Ionicons name="repeat-outline" size={20} color="gray" />
                         <Text style={styles.stats}>{post.repostsCount}</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => console.log('Share pressed!')}>
                     <View style={styles.row}>
-                        <Ionicons name="share-outline" size={22} color="gray" />
+                        <Ionicons name="share-outline" size={20} color="gray" />
                     </View>
                 </TouchableOpacity>
             </View>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
         gap: 20,
     },
     stats:{
-        fontSize: 16,
+        fontSize: 12,
         color: 'gray',
         marginLeft: 4,
     },

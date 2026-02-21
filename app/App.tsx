@@ -3,12 +3,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import PostCard from './src/components/PostCard';
 import { mockPosts } from './src/data/mockPosts';
+import FeedScreen from './src/screens/FeedScreen';
 
 export default function App() {
   return (
     <NavigationContainer>
       <View style={styles.container}>
-        <PostCard post={mockPosts[0]} />
+        <FeedScreen />
         <StatusBar style="auto" />
       </View>
     </NavigationContainer>
@@ -19,7 +20,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 80,
   },
 });

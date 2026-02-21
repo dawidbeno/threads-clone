@@ -5,15 +5,12 @@ import PostCard from './src/components/PostCard';
 import { mockPosts } from './src/data/mockPosts';
 import FeedScreen from './src/screens/FeedScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
+import { Navigation } from './src/navigation/TabNavigator';
+ './src/navigation/TabNavigator';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <View style={styles.container}>
-        <ProfileScreen />
-        <StatusBar style="auto" />
-      </View>
-    </NavigationContainer>
+    <Navigation />
   );
 }
 

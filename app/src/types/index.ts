@@ -9,3 +9,11 @@ export type Post = {
     repostsCount: number;
     imageUrl?: string;
 }
+
+export type User = {
+    id: number;
+    username: string;
+    avatarUrl?: string;
+    bio?: string;
+    followersCount: number;
+}

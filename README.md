@@ -60,7 +60,7 @@ npx expo install @react-navigation/native @react-navigation/native-stack @react-
 **Labels:** `data`
 
 Create `/src/data/mockPosts.ts` with at least 5 posts. Each post should include:
-- `id`, `username`, `handle`, `avatarUrl`, `content`, `timestamp`
+- `id`, `username`, `avatarUrl`, `content`, `timestamp`
 - `likesCount`, `commentsCount`, `repostsCount`
 - Optional: `imageUrl` for at least one post
 
@@ -75,7 +75,7 @@ Also define the TypeScript type for a post in `/src/types/index.ts`.
 
 Create `/src/components/PostCard.tsx`. It should display:
 - User avatar (use a placeholder image service like `https://i.pravatar.cc`)
-- Username and handle
+- Username
 - Post text content
 - Action row: like, comment, repost, share buttons (text/icon placeholders for now)
 - Timestamp

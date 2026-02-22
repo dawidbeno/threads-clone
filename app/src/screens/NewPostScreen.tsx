@@ -12,12 +12,14 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { mockUsers } from '../data/mockuser';
+import { useNavigation } from '@react-navigation/native';
 
 const user = mockUsers[0];
 
 export default function NewPostScreen() {
   const [postText, setPostText] = useState('');
   const inputRef = useRef<TextInput>(null);
+  const navigation = useNavigation();
 
   return (
     <KeyboardAvoidingView
@@ -26,7 +28,7 @@ export default function NewPostScreen() {
     >
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.cancelText}>Cancel</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>New thread</Text>
@@ -307,6 +309,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   postBtnTextActive: {
-    color: '#000',
+    color: '#fff',
   },
 });

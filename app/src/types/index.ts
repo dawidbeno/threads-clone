@@ -15,5 +15,6 @@ export type User = {
     username: string;
     avatarUrl?: string;
     bio?: string;
+    website?: string;
     followersCount: number;
 }

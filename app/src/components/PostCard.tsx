@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     postContainer: {
         flexDirection: 'row',
         padding: 10,
+        backgroundColor : '#fff',
     },
     postContent: {
         flex: 1,  // takes up all remaining space after the avatar

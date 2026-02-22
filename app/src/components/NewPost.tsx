@@ -1,8 +1,6 @@
-import { StyleSheet, FlatList, View, Text, TextInput, Image } from "react-native";
-import PostCard from "../components/PostCard";
-import { mockPosts } from "../data/mockPosts";
+import { View, Image, TextInput, Text, StyleSheet } from "react-native";
 
-function NewPost() {
+export default function NewPost() {
     return (
         <View>
             <View style={styles.row}>
@@ -21,19 +19,6 @@ function NewPost() {
         </View>
     );
 }
-
-export default function FeedScreen() {
-    return (
-        <FlatList
-            style={{ backgroundColor: 'white' }}
-            data={mockPosts}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <PostCard post={item} />}
-            ItemSeparatorComponent={() => <View style={styles.separator} />}
-            ListHeaderComponent={<NewPost />}
-        />
-    );
-};
 
 const styles = StyleSheet.create({
     row: {

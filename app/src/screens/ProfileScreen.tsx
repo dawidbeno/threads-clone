@@ -1,7 +1,10 @@
-import { Text, View, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { Text, View, Image, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import NewPost from '../components/NewPost';
 import { mockProfilePosts } from '../data/mockProfilePosts';
 import PostCard from '../components/PostCard';
+import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useRef } from 'react';
 
 function ActionButton({ title }: { title: string }) {
     return (
@@ -11,33 +14,10 @@ function ActionButton({ title }: { title: string }) {
     );
 }
 
-function ListHeader() {
+function ProfileHeader() {
     return (
         <View>
-            <View style={styles.tabsRow}>
-                <TouchableOpacity style={[styles.tab, styles.activeTab]}>
-                    <Text style={styles.activeTabText}>Threads</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.tab}>
-                    <Text style={styles.tabText}>Replies</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.tab}>
-                    <Text style={styles.tabText}>Media</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.tab}>
-                    <Text style={styles.tabText}>Reposts</Text>
-                </TouchableOpacity>
-            </View>
-            <NewPost />
-        </View>
-    );
-}
-
-export default function ProfileScreen() {
-    return (
-        <View style={styles.container}>
-            {/* Static profile header */}
-            <View style={styles.headerContainer}>
+            <View style={styles.paddedSection}>
                 <View style={styles.row}>
                     <View>
                         <Text style={styles.name}>David Beno</Text>
@@ -76,13 +56,88 @@ export default function ProfileScreen() {
                 </View>
             </View>
 
-            {/* Posts list with NewPost as header */}
-            <FlatList
+            <View style={styles.tabsRow}>
+                <TouchableOpacity style={[styles.tab, styles.activeTab]}>
+                    <Text style={styles.activeTabText}>Threads</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.tab}>
+                    <Text style={styles.tabText}>Replies</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.tab}>
+                    <Text style={styles.tabText}>Media</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.tab}>
+                    <Text style={styles.tabText}>Reposts</Text>
+                </TouchableOpacity>
+            </View>
+
+            <NewPost />
+        </View>
+    );
+}
+
+export default function ProfileScreen() {
+    const insets = useSafeAreaInsets();
+    const scrollY = useRef(new Animated.Value(0)).current;
+
+    const HEADER_MAX_HEIGHT = insets.top + 48; // 48 is the height of the header content
+    const HEADER_MIN_HEIGHT = insets.top;
+    const ICON_FADE_DISTANCE = 48; // Distance at which icons are fully faded out
+    const HEADER_COLLAPSE_DISTANCE = 48; // Distance at which header is fully collapsed
+
+    const headerHeight = scrollY.interpolate({
+        inputRange: [0, HEADER_COLLAPSE_DISTANCE],
+        outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
+        extrapolate: 'clamp',
+    });
+
+    const iconOpacity = scrollY.interpolate({
+        inputRange: [0, ICON_FADE_DISTANCE],
+        outputRange: [1, 0],
+        extrapolate: 'clamp',
+    });
+
+    console.log('insets.top:', insets.top);
+
+    return (
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+            {/* Collapsing header */}
+            <Animated.View style={{
+                height: headerHeight,
+                backgroundColor: '#fff',
+                overflow: 'hidden',
+                justifyContent: 'flex-end',
+            }}>
+                <Animated.View style={{
+                    opacity: iconOpacity,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    paddingHorizontal: 16,
+                    marginBottom: 16,
+                }}>
+                    <Ionicons name="bar-chart-outline" size={24} color="#000" />
+                    <View style={{ flexDirection: 'row', gap: 16 }}>
+                        <Ionicons name="search-outline" size={24} color="#000" />
+                        <Ionicons name="logo-instagram" size={24} color="#000" />
+                        <Ionicons name="menu-outline" size={26} color="#000" />
+                    </View>
+                </Animated.View>
+            </Animated.View>
+
+            {/* FlatList */}
+            <Animated.FlatList
                 data={mockProfilePosts}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => <PostCard post={item} />}
-                ListHeaderComponent={<ListHeader />}
+                ListHeaderComponent={() => <ProfileHeader />}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
+                style={styles.container}
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                    { useNativeDriver: false }
+                )}
+                scrollEventThrottle={16}
             />
         </View>
     );
@@ -93,7 +148,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
-    headerContainer: {
+    paddedSection: {
         padding: 16,
     },
     row: {
@@ -176,7 +231,7 @@ const styles = StyleSheet.create({
     tab: {
         flex: 1,
         alignItems: 'center',
-        paddingVertical: 4,
+        paddingVertical: 6,
     },
     activeTab: {
         borderBottomWidth: 1,
@@ -193,5 +248,17 @@ const styles = StyleSheet.create({
     separator: {
         height: 1,
         backgroundColor: '#eee',
+    },
+    topBar: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+    },
+    topBarRight: {
+        flexDirection: 'row',
+        gap: 16,
+        alignItems: 'center',
     },
 });

@@ -1,10 +1,19 @@
-import { Text, View, Image, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import { Text, View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import NewPost from '../components/NewPost';
 import { mockProfilePosts } from '../data/mockProfilePosts';
 import PostCard from '../components/PostCard';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useRef } from 'react';
+import Animated, {
+    useSharedValue,
+    useAnimatedScrollHandler,
+    useAnimatedStyle,
+    interpolate,
+    Extrapolation,
+    interpolateColor,
+} from 'react-native-reanimated';
+
+const ICON_BAR_HEIGHT = 48;
 
 function ActionButton({ title }: { title: string }) {
     return (
@@ -14,9 +23,19 @@ function ActionButton({ title }: { title: string }) {
     );
 }
 
-function ProfileHeader() {
+function ProfileHeader({ iconBarStyle }: { iconBarStyle: any }) {
     return (
         <View>
+            {/* Icon bar — scrolls with content, fades out */}
+            <Animated.View style={[styles.iconBar, iconBarStyle]}>
+                <Ionicons name="bar-chart-outline" size={24} color="#000" />
+                <View style={{ flexDirection: 'row', gap: 16 }}>
+                    <Ionicons name="search-outline" size={24} color="#000" />
+                    <Ionicons name="logo-instagram" size={24} color="#000" />
+                    <Ionicons name="menu-outline" size={26} color="#000" />
+                </View>
+            </Animated.View>
+
             <View style={styles.paddedSection}>
                 <View style={styles.row}>
                     <View>
@@ -78,75 +97,79 @@ function ProfileHeader() {
 
 export default function ProfileScreen() {
     const insets = useSafeAreaInsets();
-    const scrollY = useRef(new Animated.Value(0)).current;
+    const scrollY = useSharedValue(0);
 
-    const HEADER_MAX_HEIGHT = insets.top + 48; // 48 is the height of the header content
-    const HEADER_MIN_HEIGHT = insets.top;
-    const ICON_FADE_DISTANCE = 48; // Distance at which icons are fully faded out
-    const HEADER_COLLAPSE_DISTANCE = 48; // Distance at which header is fully collapsed
-
-    const headerHeight = scrollY.interpolate({
-        inputRange: [0, HEADER_COLLAPSE_DISTANCE],
-        outputRange: [HEADER_MAX_HEIGHT, HEADER_MIN_HEIGHT],
-        extrapolate: 'clamp',
+    const scrollHandler = useAnimatedScrollHandler({
+        onScroll: (event) => {
+            scrollY.value = event.contentOffset.y;
+        },
     });
 
-    const iconOpacity = scrollY.interpolate({
-        inputRange: [0, ICON_FADE_DISTANCE],
-        outputRange: [1, 0],
-        extrapolate: 'clamp',
-    });
+    // Icon bar fades out over first ICON_BAR_HEIGHT px of scroll
+    const iconBarStyle = useAnimatedStyle(() => ({
+        opacity: interpolate(
+            scrollY.value,
+            [0, ICON_BAR_HEIGHT],
+            [1, 0],
+            Extrapolation.CLAMP,
+        ),
+    }));
 
-    console.log('insets.top:', insets.top);
+    // Status bar overlay goes from transparent to solid white
+    const statusBarOverlayStyle = useAnimatedStyle(() => ({
+        backgroundColor: interpolateColor(
+            scrollY.value,
+            [0, ICON_BAR_HEIGHT],
+            ['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 1)'],
+        ),
+    }));
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            {/* Collapsing header */}
-            <Animated.View style={{
-                height: headerHeight,
-                backgroundColor: '#fff',
-                overflow: 'hidden',
-                justifyContent: 'flex-end',
-            }}>
-                <Animated.View style={{
-                    opacity: iconOpacity,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    paddingHorizontal: 16,
-                    marginBottom: 16,
-                }}>
-                    <Ionicons name="bar-chart-outline" size={24} color="#000" />
-                    <View style={{ flexDirection: 'row', gap: 16 }}>
-                        <Ionicons name="search-outline" size={24} color="#000" />
-                        <Ionicons name="logo-instagram" size={24} color="#000" />
-                        <Ionicons name="menu-outline" size={26} color="#000" />
-                    </View>
-                </Animated.View>
-            </Animated.View>
+            {/* Status bar overlay — sits on top of everything */}
+            <Animated.View
+                style={[
+                    {
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: insets.top,
+                        zIndex: 10,
+                    },
+                    statusBarOverlayStyle,
+                ]}
+            />
 
-            {/* FlatList */}
+            {/* FlatList — the only scrollable area */}
             <Animated.FlatList
                 data={mockProfilePosts}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => <PostCard post={item} />}
-                ListHeaderComponent={() => <ProfileHeader />}
-                ItemSeparatorComponent={() => <View style={styles.separator} />}
-                style={styles.container}
-                onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                    { useNativeDriver: false }
+                ListHeaderComponent={() => (
+                    <ProfileHeader iconBarStyle={iconBarStyle} />
                 )}
+                ItemSeparatorComponent={() => <View style={styles.separator} />}
+                contentContainerStyle={{ paddingTop: insets.top }}
+                style={styles.container}
+                onScroll={scrollHandler}
                 scrollEventThrottle={16}
             />
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+    },
+    iconBar: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        height: ICON_BAR_HEIGHT,
     },
     paddedSection: {
         padding: 16,
@@ -248,17 +271,5 @@ const styles = StyleSheet.create({
     separator: {
         height: 1,
         backgroundColor: '#eee',
-    },
-    topBar: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 16,
-        paddingVertical: 12,
-    },
-    topBarRight: {
-        flexDirection: 'row',
-        gap: 16,
-        alignItems: 'center',
     },
 });

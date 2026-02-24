@@ -90,6 +90,8 @@ export default function ProfileScreen() {
 
     // Point at which icons have fully scrolled past the status bar
     const COLLAPSE_END = insets.top + ICON_BAR_HEIGHT;
+    // Icons fade out at this fraction of the total collapse
+    const FADE_END = COLLAPSE_END * 0.5;
 
     const scrollHandler = useAnimatedScrollHandler({
         onScroll: (event) => {
@@ -97,21 +99,20 @@ export default function ProfileScreen() {
         },
     });
 
-    // Icons fade out as they scroll into the status bar zone
+    // Icons fade out quickly
     const iconBarStyle = useAnimatedStyle(() => ({
         opacity: interpolate(
             scrollY.value,
-            [0, COLLAPSE_END * 0.5],
+            [0, FADE_END],
             [1, 0],
             Extrapolation.CLAMP,
         ),
     }));
 
-    // White overlay snaps in right when icons are fully gone
-    // This prevents profile content from showing behind status bar
+    // White overlay snaps in instantly when icons are done
     const overlayStyle = useAnimatedStyle(() => ({
-    opacity: scrollY.value >= COLLAPSE_END * 0.5 ? 1 : 0,
-}));
+        opacity: scrollY.value >= FADE_END ? 1 : 0,
+    }));
 
     const ListHeader = () => (
         <View>
@@ -135,7 +136,7 @@ export default function ProfileScreen() {
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            {/* White overlay — only appears after icons are gone */}
+            {/* White overlay — snaps in when icons are gone */}
             <Animated.View
                 style={[
                     {
@@ -162,6 +163,9 @@ export default function ProfileScreen() {
                 onScroll={scrollHandler}
                 scrollEventThrottle={16}
                 scrollIndicatorInsets={{ top: insets.top }}
+                snapToOffsets={[0, FADE_END]}
+                snapToEnd={false}
+                decelerationRate="fast"
             />
         </View>
     );

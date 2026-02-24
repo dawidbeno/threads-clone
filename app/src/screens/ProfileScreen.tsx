@@ -10,7 +10,6 @@ import Animated, {
     useAnimatedStyle,
     interpolate,
     Extrapolation,
-    interpolateColor,
 } from 'react-native-reanimated';
 
 const ICON_BAR_HEIGHT = 48;
@@ -23,19 +22,9 @@ function ActionButton({ title }: { title: string }) {
     );
 }
 
-function ProfileHeader({ iconBarStyle }: { iconBarStyle: any }) {
+function ProfileContent() {
     return (
-        <View>
-            {/* Icon bar — scrolls with content, fades out */}
-            <Animated.View style={[styles.iconBar, iconBarStyle]}>
-                <Ionicons name="bar-chart-outline" size={24} color="#000" />
-                <View style={{ flexDirection: 'row', gap: 16 }}>
-                    <Ionicons name="search-outline" size={24} color="#000" />
-                    <Ionicons name="logo-instagram" size={24} color="#000" />
-                    <Ionicons name="menu-outline" size={26} color="#000" />
-                </View>
-            </Animated.View>
-
+        <>
             <View style={styles.paddedSection}>
                 <View style={styles.row}>
                     <View>
@@ -91,7 +80,7 @@ function ProfileHeader({ iconBarStyle }: { iconBarStyle: any }) {
             </View>
 
             <NewPost />
-        </View>
+        </>
     );
 }
 
@@ -99,34 +88,54 @@ export default function ProfileScreen() {
     const insets = useSafeAreaInsets();
     const scrollY = useSharedValue(0);
 
+    // Point at which icons have fully scrolled past the status bar
+    const COLLAPSE_END = insets.top + ICON_BAR_HEIGHT;
+
     const scrollHandler = useAnimatedScrollHandler({
         onScroll: (event) => {
             scrollY.value = event.contentOffset.y;
         },
     });
 
-    // Icon bar fades out over first ICON_BAR_HEIGHT px of scroll
+    // Icons fade out as they scroll into the status bar zone
     const iconBarStyle = useAnimatedStyle(() => ({
         opacity: interpolate(
             scrollY.value,
-            [0, ICON_BAR_HEIGHT],
+            [0, COLLAPSE_END * 0.5],
             [1, 0],
             Extrapolation.CLAMP,
         ),
     }));
 
-    // Status bar overlay goes from transparent to solid white
-    const statusBarOverlayStyle = useAnimatedStyle(() => ({
-        backgroundColor: interpolateColor(
-            scrollY.value,
-            [0, ICON_BAR_HEIGHT],
-            ['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 1)'],
-        ),
-    }));
+    // White overlay snaps in right when icons are fully gone
+    // This prevents profile content from showing behind status bar
+    const overlayStyle = useAnimatedStyle(() => ({
+    opacity: scrollY.value >= COLLAPSE_END * 0.5 ? 1 : 0,
+}));
+
+    const ListHeader = () => (
+        <View>
+            {/* Spacer — pushes icons below status bar initially */}
+            <View style={{ height: insets.top }} />
+
+            {/* Icon bar — scrolls naturally with content */}
+            <Animated.View style={[styles.iconBar, iconBarStyle]}>
+                <Ionicons name="bar-chart-outline" size={24} color="#000" />
+                <View style={{ flexDirection: 'row', gap: 16 }}>
+                    <Ionicons name="search-outline" size={24} color="#000" />
+                    <Ionicons name="logo-instagram" size={24} color="#000" />
+                    <Ionicons name="menu-outline" size={26} color="#000" />
+                </View>
+            </Animated.View>
+
+            {/* Profile content */}
+            <ProfileContent />
+        </View>
+    );
 
     return (
         <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            {/* Status bar overlay — sits on top of everything */}
+            {/* White overlay — only appears after icons are gone */}
             <Animated.View
                 style={[
                     {
@@ -135,25 +144,24 @@ export default function ProfileScreen() {
                         left: 0,
                         right: 0,
                         height: insets.top,
+                        backgroundColor: '#fff',
                         zIndex: 10,
                     },
-                    statusBarOverlayStyle,
+                    overlayStyle,
                 ]}
             />
 
-            {/* FlatList — the only scrollable area */}
+            {/* Single scroll surface — everything scrolls together */}
             <Animated.FlatList
                 data={mockProfilePosts}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => <PostCard post={item} />}
-                ListHeaderComponent={() => (
-                    <ProfileHeader iconBarStyle={iconBarStyle} />
-                )}
+                ListHeaderComponent={ListHeader}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
-                contentContainerStyle={{ paddingTop: insets.top }}
                 style={styles.container}
                 onScroll={scrollHandler}
                 scrollEventThrottle={16}
+                scrollIndicatorInsets={{ top: insets.top }}
             />
         </View>
     );

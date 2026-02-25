@@ -1,11 +1,16 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import ActivityPost from '../components/ActivityPost';
+import { mockActivityPosts } from '../data/mockActivityPosts';
 
 export default function ActivityScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Activity</Text>
-    </View>
+    <FlatList
+        style={{ backgroundColor: 'white' }}
+        data={mockActivityPosts}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <ActivityPost post={item} />}
+    />
   );
 }
 

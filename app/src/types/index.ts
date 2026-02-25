@@ -10,6 +10,18 @@ export type Post = {
     imageUrl?: string;
 }
 
+export type Activity = {
+    id: number;
+    username: string;
+    content: string;
+    avatarUrl?: string;
+    createdAt: string;
+    likesCount: number;
+    commentsCount: number;
+    repostsCount: number;
+    imageUrls?: string[];
+}
+
 export type User = {
     id: number;
     username: string;

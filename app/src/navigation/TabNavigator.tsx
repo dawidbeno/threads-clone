@@ -52,6 +52,7 @@ const TabNavigator = createBottomTabNavigator({
                 tabBarIcon: ({ color, size }) => (
                     <Ionicons name="heart-outline" size={size} color={color} />
                 ),
+                headerShown: false,
             }
         },
         Profile: {

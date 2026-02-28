@@ -60,15 +60,16 @@ export default function ActivityScreen() {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={onRefresh}
-              progressViewOffset={45}
+              progressViewOffset={40}
             />
           }>
           {mockActivityPosts.map(post => (
             <ActivityPost key={post.id.toString()} post={post} />
           ))}
         </Animated.ScrollView>
+        {/* FRONT layer, floats on top */}
           <View style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
-            <FilterTabs />  {/* ← FRONT layer, floats on top */}
+            <FilterTabs />  
         </View>
       </View>
     </View>

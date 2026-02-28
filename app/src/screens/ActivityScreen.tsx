@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, RefreshControl } from 'react-native';
 import ActivityPost from '../components/ActivityPost';
 import { mockActivityPosts } from '../data/mockActivityPosts';
 import FilterTabs from '../components/FilterTabs';
@@ -8,6 +8,7 @@ import Animated, { interpolate, useAnimatedScrollHandler, useAnimatedStyle, useS
 import { Ionicons } from '@expo/vector-icons';
 
 export default function ActivityScreen() {
+  const [refreshing, setRefreshing] = useState(false)
   const insets = useSafeAreaInsets()
   const scrollY = useSharedValue(0)
   const TITLE_HEIGHT = 50
@@ -36,52 +37,53 @@ export default function ActivityScreen() {
       },
   })
 
+  const onRefresh = () => {
+      setRefreshing(true)
+      setTimeout(() => setRefreshing(false), 1500)
+  }
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       <Animated.View style={[styles.titleContainer, headerStyle]}>
-        <Animated.View style={[titleStyle, { flexDirection: 'row', alignItems: 'center'}]}>
+        <Animated.View style={[titleStyle, styles.titleRow]}>
           <Text style={styles.title}>Activity</Text>
-          <Ionicons name="notifications-off-outline" size={26} color="#000" style={{ marginLeft: -8 }} />
+          <Ionicons name="notifications-off-outline" size={26} color="#000" style={{ marginLeft: 4 }} />
         </Animated.View>
       </Animated.View>
 
-      <Animated.ScrollView style={[styles.animatedScroll]} 
-      stickyHeaderIndices={[0]} 
-      scrollEventThrottle={16}
-      onScroll={scrollHandler}>
+      <FilterTabs />
 
-        <FilterTabs />
-
+      <Animated.ScrollView
+        scrollEventThrottle={16}
+        onScroll={scrollHandler}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+      >
         {mockActivityPosts.map(post => (
           <ActivityPost key={post.id.toString()} post={post} />
         ))}
-
       </Animated.ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  animatedScroll: {
-    backgroundColor: 'white',
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
-    fontSize: 30,
+    fontSize: 34,
     fontWeight: 'bold',
-    paddingHorizontal: 16,
+    paddingLeft: 16,
   },
   titleContainer: {
     backgroundColor: 'white',
     justifyContent: 'flex-end',
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#fff',
-  },
-  text: {
-    fontSize: 18,
-    color: '#888',
+    paddingBottom: 6,
   },
 });

@@ -27,7 +27,7 @@ export default function FilterTabs() {
 
 const styles = StyleSheet.create({
     scrollViewBackground: {
-        marginBottom: -10,
+        marginBottom: 0,
     },
     pillBorder: {
         borderWidth: 0.5,

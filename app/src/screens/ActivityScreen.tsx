@@ -63,7 +63,10 @@ export default function ActivityScreen() {
         <Animated.ScrollView
           scrollEventThrottle={16}
           onScroll={scrollHandler}
-          contentContainerStyle={{ paddingTop: 50 }}
+          contentContainerStyle={{ paddingTop: TITLE_HEIGHT }} // Swapped hardcoded 50 for TITLE_HEIGHT
+          snapToOffsets={[0, TITLE_HEIGHT]} // <--- Added Snapping
+          snapToEnd={false}                 // <--- Prevents snapping behavior at the bottom of the list
+          decelerationRate="fast"           // <--- Makes the snap feel crisp and responsive
           refreshControl={
             <RefreshControl
               refreshing={refreshing}

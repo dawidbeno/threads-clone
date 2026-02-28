@@ -39,7 +39,7 @@ export default function ActivityScreen() {
 
   const onRefresh = () => {
       setRefreshing(true)
-      setTimeout(() => setRefreshing(false), 1500)
+      setTimeout(() => setRefreshing(false), 1000)
   }
 
   return (
@@ -51,22 +51,26 @@ export default function ActivityScreen() {
         </Animated.View>
       </Animated.View>
 
-      <FilterTabs />
-
-      <Animated.ScrollView
-        scrollEventThrottle={16}
-        onScroll={scrollHandler}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
-      >
-        {mockActivityPosts.map(post => (
-          <ActivityPost key={post.id.toString()} post={post} />
-        ))}
-      </Animated.ScrollView>
+      <View style={{ flex: 1 }}>
+        <Animated.ScrollView
+          scrollEventThrottle={16}
+          onScroll={scrollHandler}
+          contentContainerStyle={{ paddingTop: 50 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              progressViewOffset={45}
+            />
+          }>
+          {mockActivityPosts.map(post => (
+            <ActivityPost key={post.id.toString()} post={post} />
+          ))}
+        </Animated.ScrollView>
+          <View style={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+            <FilterTabs />  {/* ← FRONT layer, floats on top */}
+        </View>
+      </View>
     </View>
   );
 }

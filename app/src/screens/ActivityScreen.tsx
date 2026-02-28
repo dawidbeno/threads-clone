@@ -29,6 +29,14 @@ export default function ActivityScreen() {
           [1, 0],
           'clamp'
       ),
+      transform: [{
+        translateY: interpolate(
+            scrollY.value,
+            [0, TITLE_HEIGHT],
+            [0, 15],  // positive = moves down, countering the upward collapse
+            'clamp'
+        ),
+    }],
   }))
 
   const scrollHandler = useAnimatedScrollHandler({

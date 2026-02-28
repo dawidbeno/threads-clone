@@ -43,7 +43,7 @@ export default function ActivityScreen() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
+    <View style={styles.container}>
       <Animated.View style={[styles.titleContainer, headerStyle]}>
         <Animated.View style={[titleStyle, styles.titleRow]}>
           <Text style={styles.title}>Activity</Text>
@@ -72,6 +72,10 @@ export default function ActivityScreen() {
 }
 
 const styles = StyleSheet.create({
+  container:{
+    flex: 1, 
+    backgroundColor: 'white'
+  },
   titleRow: {
     flexDirection: 'row',
     alignItems: 'center',

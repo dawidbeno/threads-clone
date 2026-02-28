@@ -7,8 +7,8 @@ export default function FilterTabs() {
     const filters = ["All", "Follows", "Replies", "Mentions", "Quotes"]
     return (
         <LinearGradient
-            colors={['#fff', '#fff', 'rgba(255,255,255,0)']}
-            locations={[0, 0.25, 1]}
+            colors={['#fff', 'rgba(255,255,255,150)', 'rgba(255,255,255,0)']}
+            locations={[0, 0.5, 1]}
             style={styles.scrollViewBackground}
             >
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>

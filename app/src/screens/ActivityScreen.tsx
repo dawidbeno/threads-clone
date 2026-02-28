@@ -1,16 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet, FlatList, ScrollView } from 'react-native';
 import ActivityPost from '../components/ActivityPost';
 import { mockActivityPosts } from '../data/mockActivityPosts';
+import FilterTabs from '../components/FilterTabs';
 
 export default function ActivityScreen() {
   return (
-    <FlatList
-        style={{ backgroundColor: 'white' }}
-        data={mockActivityPosts}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <ActivityPost post={item} />}
-    />
+    <ScrollView style={{ backgroundColor: 'white' }} stickyHeaderIndices={[0]}>
+
+      <FilterTabs />
+
+      {mockActivityPosts.map(post => (
+        <ActivityPost key={post.id.toString()} post={post} />
+      ))}
+
+    </ScrollView>
   );
 }
 

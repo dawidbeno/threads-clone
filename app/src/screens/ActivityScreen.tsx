@@ -91,7 +91,7 @@ export default function ActivityScreen() {
             refreshing={refreshing}
             onRefresh={onRefresh}
             // Ensure the loading spinner isn't hidden behind the sticky header
-            progressViewOffset={40}
+            progressViewOffset={HEADER_FULL_HEIGHT + 40}
           />
         }>
         {mockActivityPosts.map(post => (

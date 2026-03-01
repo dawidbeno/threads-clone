@@ -4,16 +4,17 @@ import ActivityPost from '../components/ActivityPost';
 import { mockActivityPosts } from '../data/mockActivityPosts';
 import FilterTabs from '../components/FilterTabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, { interpolate, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+import Animated, { interpolate, runOnJS, useAnimatedReaction, useAnimatedScrollHandler, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function ActivityScreen() {
   const [refreshing, setRefreshing] = useState(false)
+  const [isHeaderCollapsed, setIsHeaderCollapsed] = useState(false);
   const insets = useSafeAreaInsets()
   const scrollY = useSharedValue(0)
   
   const TITLE_HEIGHT = 50;
-  const FILTER_TABS_HEIGHT = 46; // Make sure this matches your actual FilterTabs component height
+  const FILTER_TABS_HEIGHT = 50; // Make sure this matches your actual FilterTabs component height
   const HEADER_FULL_HEIGHT = insets.top + TITLE_HEIGHT;
 
   // 1. Move the entire header up using translateY instead of changing its layout height
@@ -22,7 +23,7 @@ export default function ActivityScreen() {
           translateY: interpolate(
               scrollY.value,
               [0, TITLE_HEIGHT],
-              [0, -TITLE_HEIGHT / 1.5], // Moves up completely out of view
+              [0, -TITLE_HEIGHT / 2.5], // Moves up completely out of view
               'clamp'
           )
       }],
@@ -49,6 +50,17 @@ export default function ActivityScreen() {
           ),
       }],
   }))
+
+  // 3. Add this reaction block. It watches scrollY and updates the React state 
+  // only when the threshold is crossed, preventing unnecessary re-renders.
+  useAnimatedReaction(
+      () => scrollY.value >= TITLE_HEIGHT,
+      (isCollapsed, previous) => {
+          if (isCollapsed !== previous) {
+              runOnJS(setIsHeaderCollapsed)(isCollapsed);
+          }
+      }
+  );
 
   const scrollHandler = useAnimatedScrollHandler({
       onScroll: (event) => {
@@ -100,7 +112,7 @@ export default function ActivityScreen() {
 
       {/* ABSOLUTE FLOATING TABS */}
       <Animated.View style={[styles.filterTabsContainer, filterTabsStyle]}>
-          <FilterTabs />  
+          <FilterTabs isHeaderCollapsed={isHeaderCollapsed} />  
       </Animated.View>
 
     </View>
@@ -127,7 +139,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'white',
+    backgroundColor: 'red',
     justifyContent: 'flex-end',
     zIndex: 5,
   },

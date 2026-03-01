@@ -23,7 +23,7 @@ export default function ActivityScreen() {
           translateY: interpolate(
               scrollY.value,
               [0, TITLE_HEIGHT],
-              [0, -TITLE_HEIGHT / 2.5], // Moves up completely out of view
+              [0, -TITLE_HEIGHT / 3], // Moves up completely out of view
               'clamp'
           )
       }],
@@ -84,6 +84,7 @@ export default function ActivityScreen() {
         contentContainerStyle={{ paddingTop: HEADER_FULL_HEIGHT + FILTER_TABS_HEIGHT }}
         snapToOffsets={[0, TITLE_HEIGHT]}
         snapToEnd={false}
+        showsVerticalScrollIndicator={false}
         decelerationRate="fast"
         refreshControl={
           <RefreshControl
@@ -102,7 +103,9 @@ export default function ActivityScreen() {
       <Animated.View style={[
           styles.titleContainer, 
           headerStyle, 
-          { height: HEADER_FULL_HEIGHT, paddingTop: insets.top }
+          { height: isHeaderCollapsed ? HEADER_FULL_HEIGHT - 20 : HEADER_FULL_HEIGHT, 
+            paddingTop: insets.top 
+          }
       ]}>
         <Animated.View style={[titleStyle, styles.titleRow]}>
           <Text style={styles.title}>Activity</Text>
@@ -139,7 +142,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     justifyContent: 'flex-end',
     zIndex: 5,
   },

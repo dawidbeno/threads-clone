@@ -20,6 +20,7 @@ const RootNavigator = createNativeStackNavigator({
             screen: NewPostScreen,
             options: {
                 presentation: 'modal',
+                headerShown: false,
             }
         },
     }

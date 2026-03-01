@@ -36,7 +36,6 @@ export default function ActivityScreen() {
           [1, 0],
           'clamp'
       ),
-      // Removed the custom translateY here, as the whole header moving handles the motion naturally now
   }));
 
   // 2. Animate the tabs to start below the header, and scroll up until they hit the safe area
@@ -51,7 +50,7 @@ export default function ActivityScreen() {
       }],
   }))
 
-  // 3. Add this reaction block. It watches scrollY and updates the React state 
+  // 3. It watches scrollY and updates the React state 
   // only when the threshold is crossed, preventing unnecessary re-renders.
   useAnimatedReaction(
       () => scrollY.value >= TITLE_HEIGHT,
@@ -91,7 +90,7 @@ export default function ActivityScreen() {
             refreshing={refreshing}
             onRefresh={onRefresh}
             // Ensure the loading spinner isn't hidden behind the sticky header
-            progressViewOffset={HEADER_FULL_HEIGHT + 40}
+            progressViewOffset={HEADER_FULL_HEIGHT + FILTER_TABS_HEIGHT}
           />
         }>
         {mockActivityPosts.map(post => (

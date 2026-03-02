@@ -1,7 +1,7 @@
 import { Entypo } from '@expo/vector-icons';
 import Ionicons from '@expo/vector-icons/build/Ionicons';
-import React from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, RefreshControl } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FilterMessages from '../components/FilterMessages';
 import NotificationCard from '../components/NotificationCard';
@@ -10,6 +10,12 @@ import { mockSuggestedProfiles } from '../data/mockSuggested';
 
 export default function SearchScreen() {
   const insets = useSafeAreaInsets();
+  const [refreshing, setRefreshing] = useState(false)
+
+  const onRefresh = () => {
+      setRefreshing(true)
+      setTimeout(() => setRefreshing(false), 1000)
+  }
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
@@ -22,12 +28,20 @@ export default function SearchScreen() {
       </View>
       <ScrollView 
       stickyHeaderIndices={[1]}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+        />
+      }
       style={{ flex: 1, backgroundColor: '#fff' }}>
+
         {/* Child 0: Search bar */}
         <View style={styles.searchBar}>
           <Ionicons name="search" size={18} color="#888" />
           <Text style={styles.searchPlaceholder}>Search</Text>
         </View>
+
         {/* Child 1: Placeholder content */}
         <View style={styles.row}>
           <FilterMessages />
@@ -61,7 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingBottom: 12,
   },
   titleText: {
     fontSize: 34,
@@ -71,7 +85,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: '#aaa',
-    marginTop: 8,
+    marginTop: 28,
+    marginBottom: 14,
     marginLeft: 16,
   },
   searchBar: {
@@ -81,6 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginHorizontal: 16,
     marginTop: 8,
+    marginBottom: 12,
     paddingHorizontal: 12,
     paddingVertical: 10,
     gap: 8,

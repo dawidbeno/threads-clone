@@ -19,7 +19,7 @@ export default function FilterTabs({ isHeaderCollapsed }: { isHeaderCollapsed?: 
             style={[styles.pillBorder]} 
             onPress={() => console.log("Primary filter selected")}
         >
-            <Ionicons name="filter" size={18} color="#000" />
+        <Ionicons name="filter" size={18} color="#000" />
         </TouchableOpacity>
         {filters.map((filter) => {
             const isActive = filter === activeFilter
@@ -36,8 +36,7 @@ export default function FilterTabs({ isHeaderCollapsed }: { isHeaderCollapsed?: 
         </ScrollView>
     );
 
-    // 3. Conditionally render the Gradient wrapper vs a standard View wrapper
-    return isHeaderCollapsed ? (
+    return (
         <LinearGradient
             colors={['#fff', '#fff', 'rgba(255,255,255,0)']}
             locations={[0, 0.5, 1]} 
@@ -45,16 +44,12 @@ export default function FilterTabs({ isHeaderCollapsed }: { isHeaderCollapsed?: 
         >
             {tabContent}
         </LinearGradient>
-    ) : (
-        <View style={styles.gradientContainer}>
-            {tabContent}
-        </View>
     );
 }
 
 const styles = StyleSheet.create({
     gradientContainer: {
-        paddingBottom: 0, 
+        paddingBottom: 8, 
         paddingTop: 8,
     },
     scrollContent: {
@@ -66,7 +61,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 20,
         paddingHorizontal: 16,
-        paddingVertical: 8,
+        paddingVertical: 6,
         marginLeft: 8,
     },
     activePillBorder: {

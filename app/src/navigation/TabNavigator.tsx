@@ -35,6 +35,7 @@ const TabNavigator = createBottomTabNavigator({
                 tabBarIcon: ({ color, size }) => (
                     <Ionicons name="search-outline" size={size} color={color} />
                 ),
+                headerShown: false,
             }
         },
         Compose: {

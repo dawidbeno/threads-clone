@@ -27,6 +27,7 @@ const TabNavigator = createBottomTabNavigator({
                 tabBarIcon: ({ color, size }) => (
                     <Ionicons name="home-outline" size={size} color={color} />
                 ),
+                headerShown: false,
             }
         },
         Messages: {

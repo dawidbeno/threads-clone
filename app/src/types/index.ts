@@ -30,3 +30,10 @@ export type User = {
     website?: string;
     followersCount: number;
 }
+
+export type SuggestedProfile = {
+    id: number;
+    username: string;
+    subtitle: string;
+    avatarUrl: string;
+}

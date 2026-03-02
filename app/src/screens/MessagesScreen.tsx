@@ -5,6 +5,8 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FilterMessages from '../components/FilterMessages';
 import NotificationCard from '../components/NotificationCard';
+import SuggestedProfileCard from '../components/Suggested';
+import { mockSuggestedProfiles } from '../data/mockSuggested';
 
 export default function SearchScreen() {
   const insets = useSafeAreaInsets();
@@ -36,6 +38,15 @@ export default function SearchScreen() {
         </View>
 
         <Text style={styles.suggestedText}>Navrhovane</Text>
+
+        {mockSuggestedProfiles.map((profile) => (
+        <SuggestedProfileCard
+          key={profile.id}
+          profile={profile}
+          onMessage={() => console.log('Message', profile.username)}
+          onDismiss={() => console.log('Dismiss', profile.username)}
+        />
+      ))}
       </ScrollView>
     </View>
   );

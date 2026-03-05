@@ -1,8 +1,9 @@
-import { StyleSheet, FlatList, View, Text, TextInput, Image } from "react-native";
+import { StyleSheet, View, Text, TextInput, Image } from "react-native";
 import PostCard from "../components/PostCard";
 import { mockPosts } from "../data/mockPosts";
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Animated, { useSharedValue, useAnimatedScrollHandler, interpolate, Extrapolation, useAnimatedStyle } from 'react-native-reanimated';
 
 function NewPost() {
     return (
@@ -26,18 +27,37 @@ function NewPost() {
 
 export default function FeedScreen() {
     const insets = useSafeAreaInsets();
+    const scrollY = useSharedValue(0);
+
+    const scrollHandler = useAnimatedScrollHandler({
+        onScroll: (event) => {
+            scrollY.value = event.contentOffset.y;
+        },
+    });
+
+    const logoStyle = useAnimatedStyle(() => {
+        const scale = interpolate(scrollY.value, [-10, 30], [1.2, 0.8], Extrapolation.CLAMP);
+        return {
+            transform: [{ scale }],
+        };
+    });
+
     return (
         <View style={{ flex: 1, paddingTop: insets.top, backgroundColor: 'white' }}>
             <View style={styles.header}>
                 <Ionicons name="menu-outline" size={30} color="#aaa" />
-                <Ionicons name="logo-threads" size={30} />
+                <Animated.View style={logoStyle}>
+                    <Ionicons name="logo-threads" size={36} />
+                </Animated.View>
                 <Ionicons name="search-outline" size={30} color="#aaa" />
             </View>
-            <FlatList
+            <Animated.FlatList
                     style={{ backgroundColor: 'white' }}
                     data={mockPosts}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={({ item }) => <PostCard post={item} />}
+                    onScroll={scrollHandler}
+                    scrollEventThrottle={16}
                     ItemSeparatorComponent={() => <View style={styles.separator} />}
                     ListHeaderComponent={<NewPost />} />
         </View>

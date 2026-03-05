@@ -1,9 +1,13 @@
+import { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Post } from '../types';
 import { formatDistanceToNow } from 'date-fns';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function PostCard({ post }: { post: Post }) {
+  // Track whether the current user has liked this post
+  const [isLiked, setIsLiked] = useState(false);
+
   return (
     <View style={styles.postContainer}>
         <Image 
@@ -17,10 +21,16 @@ export default function PostCard({ post }: { post: Post }) {
             </View>
             <Text style={styles.content}>{post.content}</Text>
             <View style={styles.buttonsRow}>
-                <TouchableOpacity onPress={() => console.log('Like pressed!')}>
+                <TouchableOpacity onPress={() => setIsLiked(!isLiked)}>
                     <View style={styles.row}>
-                        <Ionicons name="heart-outline" size={20} color="gray" />
-                        <Text style={styles.stats}>{post.likesCount}</Text>
+                        <Ionicons 
+                          name={isLiked ? "heart" : "heart-outline"} 
+                          size={20} 
+                          color={isLiked ? "red" : "gray"} 
+                        />
+                        <Text style={[styles.stats, isLiked && { color: 'red' }]}>
+                          {isLiked ? post.likesCount + 1 : post.likesCount}
+                        </Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => console.log('Comments pressed!')}>
@@ -53,7 +63,7 @@ const styles = StyleSheet.create({
         backgroundColor : '#fff',
     },
     postContent: {
-        flex: 1,  // takes up all remaining space after the avatar
+        flex: 1,
         marginLeft: 10,
     },
     row: {

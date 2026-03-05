@@ -57,7 +57,7 @@ const TabNavigator = createBottomTabNavigator({
                         width: 44,
                         height: 44,
                         borderRadius: 12,
-                        backgroundColor: '#ececec',
+                        backgroundColor: '#f0f0f0',
                         alignItems: 'center',
                         justifyContent: 'center',
                     }}>

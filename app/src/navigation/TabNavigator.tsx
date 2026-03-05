@@ -35,7 +35,7 @@ const TabNavigator = createBottomTabNavigator({
             screen: FeedScreen,
             options: {
                 tabBarIcon: ({ size, focused }) => (
-                    <Octicons name={focused ? "home-fill" : "home"} size={size} color="black" />
+                    <Octicons name={focused ? "home-fill" : "home"} size={size} color={focused ? "black" : "grey"} />
                 ),
                 headerShown: false,
             }
@@ -44,7 +44,7 @@ const TabNavigator = createBottomTabNavigator({
             screen: MessagesScreen,
             options: {
                 tabBarIcon: ({ size, focused }) => (
-                    <FontAwesome name={focused ? "envelope" : "envelope-o"} size={size} color="black" />
+                    <FontAwesome name={focused ? "envelope" : "envelope-o"} size={size} color={focused ? "black" : "grey"} />
                 ),
                 headerShown: false,
             }
@@ -71,7 +71,7 @@ const TabNavigator = createBottomTabNavigator({
             screen: ActivityScreen,
             options: {
                 tabBarIcon: ({ size, focused }) => (
-                    <Octicons name={focused ? "heart-fill" : "heart"} size={size} color="black" />
+                    <Octicons name={focused ? "heart-fill" : "heart"} size={size} color={focused ? "black" : "grey"} />
                 ),
                 headerShown: false,
             }
@@ -80,7 +80,7 @@ const TabNavigator = createBottomTabNavigator({
             screen: ProfileScreen,
             options: {
                 tabBarIcon: ({ size, focused }) => (
-                    <FontAwesome5 name={focused?"user-alt" : "user"} size={size} color="black" />
+                    <FontAwesome5 name={focused?"user-alt" : "user"} size={size} color={focused ? "black" : "grey"} />
                 ),
                 headerShown: false,
             }

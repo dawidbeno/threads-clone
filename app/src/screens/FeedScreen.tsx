@@ -36,7 +36,7 @@ export default function FeedScreen() {
     });
 
     const logoStyle = useAnimatedStyle(() => {
-        const scale = interpolate(scrollY.value, [-10, 30], [1.2, 0.8], Extrapolation.CLAMP);
+        const scale = interpolate(scrollY.value, [-10, 40], [1.2, 0.8], Extrapolation.CLAMP);
         return {
             transform: [{ scale }],
         };
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 10,
+        padding: 6,
         backgroundColor: 'white',
     },
 });

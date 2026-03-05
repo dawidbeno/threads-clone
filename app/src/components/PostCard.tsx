@@ -3,12 +3,30 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Post } from '../types';
 import { formatDistanceToNow } from 'date-fns';
 import { Ionicons } from '@expo/vector-icons';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 export default function PostCard({ post }: { post: Post }) {
   // Track whether the current user has liked this post
   const [isLiked, setIsLiked] = useState(false);
 
-  return (
+  // 0 - shows first numer
+  // 1 - shows second number (likesCount + 1)
+  const slide = useSharedValue(0);
+
+  // When slide si 1, translateY is -16, showing the second number. 
+  // When slide is 0, translateY is 0, showing the first number.
+  const animatedStackStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: -slide.value * 16 }],
+  }));
+
+  const handleLikePress = () => {
+    const newIsLiked = !isLiked;
+    setIsLiked(newIsLiked);
+    // Animate the number change
+    slide.value = withTiming(newIsLiked ? 1 : 0, { duration: 250 });
+  };
+
+return (
     <View style={styles.postContainer}>
         <Image 
         source={{ uri: post.avatarUrl }}
@@ -21,16 +39,19 @@ export default function PostCard({ post }: { post: Post }) {
             </View>
             <Text style={styles.content}>{post.content}</Text>
             <View style={styles.buttonsRow}>
-                <TouchableOpacity onPress={() => setIsLiked(!isLiked)}>
+                <TouchableOpacity onPress={handleLikePress}>
                     <View style={styles.row}>
                         <Ionicons 
-                          name={isLiked ? "heart" : "heart-outline"} 
-                          size={20} 
-                          color={isLiked ? "red" : "gray"} 
+                        name={isLiked ? "heart" : "heart-outline"} 
+                        size={20} 
+                        color={isLiked ? "red" : "gray"} 
                         />
-                        <Text style={[styles.stats, isLiked && { color: 'red' }]}>
-                          {isLiked ? post.likesCount + 1 : post.likesCount}
-                        </Text>
+                        <View style={{ overflow: 'hidden', height: 16 }}>
+                            <Animated.View style={animatedStackStyle}>
+                                <Text style={{ height: 16, lineHeight: 16, color: 'grey', marginLeft: 4 }}>{post.likesCount}</Text>
+                                <Text style={{ height: 16, lineHeight: 16, color: 'red', marginLeft: 4 }}>{post.likesCount + 1}</Text>
+                            </Animated.View>
+                        </View>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => console.log('Comments pressed!')}>
@@ -53,7 +74,7 @@ export default function PostCard({ post }: { post: Post }) {
             </View>
         </View>
     </View>
-  );
+ );
 }
 
 const styles = StyleSheet.create({

@@ -1,9 +1,35 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Post } from '../types';
 import { formatDistanceToNow } from 'date-fns';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+
+function ImageGallery({ images }: { images: string[] }) {
+  return (
+    <View>
+        {images.length === 1 && (
+        <Image 
+        source={{ uri: images[0] }}
+        style={{ width: '100%', height: 200, borderRadius: 10, marginTop: 10 }}
+        resizeMode="cover"
+        />
+        )}
+        {images.length > 1 && (
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 10 }}>
+                {images.map((img, index) => (
+                    <Image 
+                        key={index}
+                        source={{ uri: img }}
+                        style={{ width: 160, height: 200, borderRadius: 10, marginRight: 8 }}
+                        resizeMode="cover"
+                    />
+                ))}
+            </ScrollView>
+        )}
+    </View>
+  );
+}
 
 export default function PostCard({ post }: { post: Post }) {
   // Track whether the current user has liked this post
@@ -38,6 +64,7 @@ return (
                 <Text style={styles.time}>{formatDistanceToNow(new Date(post.createdAt), { addSuffix: false })}</Text>
             </View>
             <Text style={styles.content}>{post.content}</Text>
+            {post.images && <ImageGallery images={post.images} />}
             <View style={styles.buttonsRow}>
                 <TouchableOpacity onPress={handleLikePress}>
                     <View style={styles.row}>
@@ -105,7 +132,7 @@ const styles = StyleSheet.create({
     },
     buttonsRow: {
         flexDirection: 'row',
-        marginTop: 4,
+        marginTop: 12,
         gap: 20,
     },
     stats:{

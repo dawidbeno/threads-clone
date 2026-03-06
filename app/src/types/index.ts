@@ -7,7 +7,7 @@ export type Post = {
     likesCount: number;
     commentsCount: number;
     repostsCount: number;
-    imageUrl?: string;
+    images?: string[];
 }
 
 export type Activity = {

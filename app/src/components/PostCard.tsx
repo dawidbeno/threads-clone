@@ -7,7 +7,7 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-na
 
 function ImageGallery({ images }: { images: string[] }) {
   return (
-    <View>
+    <View style={{ marginBottom: 8 }}>
         {images.length === 1 && (
         <Image 
         source={{ uri: images[0] }}
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     },
     buttonsRow: {
         flexDirection: 'row',
-        marginTop: 12,
+        marginTop: 8,
         gap: 20,
     },
     stats:{

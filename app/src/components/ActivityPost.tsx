@@ -3,8 +3,24 @@ import { Activity } from '../types';
 import { formatDistanceToNow } from 'date-fns';
 import { Ionicons } from '@expo/vector-icons';
 import Entypo from '@expo/vector-icons/Entypo';
+import { useState } from 'react';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated/';
 
 export default function ActivityPostCard({ post }: { post: Activity }) {
+    const [isLiked, setIsLiked] = useState(false);
+    const slide = useSharedValue(0);
+
+    const handleLikePress = () => {
+        const newIsLiked = !isLiked;
+        setIsLiked(newIsLiked);
+        // Animate the number change
+        slide.value = withTiming(newIsLiked ? 1 : 0, { duration: 250 });
+    };
+
+    const animatedStackStyle = useAnimatedStyle(() => ({
+        transform: [{ translateY: -slide.value * 16 }],
+    }));
+
   return (
     <View style={styles.postContainer}>
         <Image
@@ -56,10 +72,19 @@ export default function ActivityPostCard({ post }: { post: Activity }) {
             </View>
 
             <View style={styles.buttonsRow}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleLikePress}>
                     <View style={styles.row}>
-                        <Ionicons name="heart-outline" size={20} color="gray" />
-                        <Text style={styles.stats}>{post.likesCount}</Text>
+                        <Ionicons 
+                        name={isLiked ? "heart" : "heart-outline"} 
+                        size={20} 
+                        color={isLiked ? "red" : "gray"} 
+                        />
+                        <View style={{ overflow: 'hidden', height: 16 }}>
+                            <Animated.View style={animatedStackStyle}>
+                                <Text style={{ height: 16, lineHeight: 16, color: 'grey', marginLeft: 4 }}>{post.likesCount}</Text>
+                                <Text style={{ height: 16, lineHeight: 16, color: 'red', marginLeft: 4 }}>{post.likesCount + 1}</Text>
+                            </Animated.View>
+                        </View>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity>

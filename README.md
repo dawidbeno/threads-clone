@@ -10,12 +10,12 @@ A pixel-faithful mobile clone of [Threads](https://www.threads.net/) — Meta's 
 
 ## Screenshots
 
-<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
-  <img src="./screenshots/IMG_7826.PNG" alt="Feed Screen" width="220" />
-  <img src="./screenshots/IMG_7827.PNG" alt="Post Detail" width="220" />
-  <img src="./screenshots/IMG_7828.PNG" alt="Activity Screen" width="220" />
-  <img src="./screenshots/IMG_7829.PNG" alt="Profile Screen" width="220" />
-  <img src="./screenshots/IMG_7830.PNG" alt="Compose Screen" width="220" />
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+  <img src="./screenshots/IMG_7826.PNG" alt="Feed Screen" width="220" style="border: 1px solid black;" />
+  <img src="./screenshots/IMG_7827.PNG" alt="Post Detail" width="220" style="border: 1px solid black;" />
+  <img src="./screenshots/IMG_7828.PNG" alt="Activity Screen" width="220" style="border: 1px solid black;" />
+  <img src="./screenshots/IMG_7829.PNG" alt="Profile Screen" width="220" style="border: 1px solid black;" />
+  <img src="./screenshots/IMG_7830.PNG" alt="Compose Screen" width="220" style="border: 1px solid black;" />
 </div>
 
 ---

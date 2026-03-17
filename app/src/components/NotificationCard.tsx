@@ -18,8 +18,8 @@ export default function NotificationCard() {
         </View>
 
         <View style={styles.container}>
-            <Text style={styles.textTitle}>Uz nikdy nezmeskate spravu</Text>
-            <Text style={styles.textSubtitle}>Zapnite si upozornenia pre svoj novy priecinok prijatych sprav.</Text>
+            <Text style={styles.textTitle}>Never miss a message</Text>
+            <Text style={styles.textSubtitle}>Turn on notifications for your new message inbox.</Text>
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>Turn on notifications</Text>
             </TouchableOpacity>

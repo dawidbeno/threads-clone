@@ -4,19 +4,19 @@ export const mockSuggestedProfiles: SuggestedProfile[] = [
     {
     id: 1,
     username: 'blogokave',
-    subtitle: 'Blog o káve',
+    subtitle: 'Blog about coffee',
     avatarUrl: 'https://i.pravatar.cc/150?img=11',
   },
   {
     id: 2,
     username: 'roast.different',
-    subtitle: 'Roast Different ☕ magazín o káve',
+    subtitle: 'Roast Different ☕ Coffee magazine',
     avatarUrl: 'https://i.pravatar.cc/150?img=12',
   },
   {
     id: 3,
     username: 'aurelicacoffee',
-    subtitle: 'Aurelica coffee - prvá pražiareň kávy na Liptove',
+    subtitle: 'Aurelica Coffee - first roastery in Liptov',
     avatarUrl: 'https://i.pravatar.cc/150?img=13',
   },
   {
@@ -28,7 +28,7 @@ export const mockSuggestedProfiles: SuggestedProfile[] = [
   {
     id: 5,
     username: 'coffeein.sk',
-    subtitle: 'Všetko o káve na jednom mieste',
+    subtitle: 'Everything about coffee in one place',
     avatarUrl: 'https://i.pravatar.cc/150?img=15',
   },
   {
@@ -40,7 +40,7 @@ export const mockSuggestedProfiles: SuggestedProfile[] = [
   {
     id: 7,
     username: 'goriffee',
-    subtitle: 'Craft coffee roastery Praha',
+    subtitle: 'Craft coffee roastery Prague',
     avatarUrl: 'https://i.pravatar.cc/150?img=17',
   },
   {
@@ -52,13 +52,13 @@ export const mockSuggestedProfiles: SuggestedProfile[] = [
   {
     id: 9,
     username: 'kava.nadej',
-    subtitle: 'Komunitná kaviareň v Bratislave',
+    subtitle: 'Community café in Bratislava',
     avatarUrl: 'https://i.pravatar.cc/150?img=19',
   },
   {
     id: 10,
     username: 'the.coffee.lab',
-    subtitle: 'Experimenty s kávou a extrakciou',
+    subtitle: 'Experiments with coffee and extraction',
     avatarUrl: 'https://i.pravatar.cc/150?img=20',
   },
 ];

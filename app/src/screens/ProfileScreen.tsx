@@ -37,7 +37,7 @@ function ProfileContent() {
                     />
                 </View>
 
-                <Text style={styles.bio}>Toto je moje bio, ktore o mne vlastne ani nic nepovie :P</Text>
+                <Text style={styles.bio}>This is my bio, which actually tells you nothing about me :P</Text>
 
                 <View style={styles.pillRow}>
                     <View style={styles.pill}>

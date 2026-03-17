@@ -51,7 +51,7 @@ export default function SearchScreen() {
           <NotificationCard />
         </View>
 
-        <Text style={styles.suggestedText}>Navrhovane</Text>
+        <Text style={styles.suggestedText}>Suggested</Text>
 
         {mockSuggestedProfiles.map((profile) => (
         <SuggestedProfileCard

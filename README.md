@@ -13,14 +13,14 @@ A pixel-faithful mobile clone of [Threads](https://www.threads.net/) — Meta's 
 <table>
   <tr>
     <td><img src="./screenshots/IMG_7826.PNG" alt="Feed Screen" width="200" /></td>
-    <td><img src="./screenshots/IMG_7827.PNG" alt="Post Detail" width="200" /></td>
+    <td><img src="./screenshots/messages.gif" alt="Messages" width="200" /></td>
     <td><img src="./screenshots/IMG_7828.PNG" alt="Activity Screen" width="200" /></td>
     <td><img src="./screenshots/IMG_7829.PNG" alt="Profile Screen" width="200" /></td>
     <td><img src="./screenshots/IMG_7830.PNG" alt="Compose Screen" width="200" /></td>
   </tr>
   <tr>
     <td align="center">Feed</td>
-    <td align="center">Post Detail</td>
+    <td align="center">Messages</td>
     <td align="center">Activity</td>
     <td align="center">Profile</td>
     <td align="center">Compose</td>

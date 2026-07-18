@@ -12,18 +12,18 @@ A pixel-faithful mobile clone of [Threads](https://www.threads.net/) — Meta's 
 
 <table>
   <tr>
-    <td><img src="./screenshots/IMG_7826.PNG" alt="Feed Screen" width="200" /></td>
+    <td><img src="./screenshots/main.gif" alt="Feed" width="200" /></td>
     <td><img src="./screenshots/messages.gif" alt="Messages" width="200" /></td>
-    <td><img src="./screenshots/IMG_7828.PNG" alt="Activity Screen" width="200" /></td>
-    <td><img src="./screenshots/IMG_7829.PNG" alt="Profile Screen" width="200" /></td>
-    <td><img src="./screenshots/IMG_7830.PNG" alt="Compose Screen" width="200" /></td>
+    <td><img src="./screenshots/activity.gif" alt="Activity" width="200" /></td>
+    <td><img src="./screenshots/new_thread.gif" alt="Compose" width="200" /></td>
+    <td><img src="./screenshots/profile.gif" alt="Profile" width="200" /></td>
   </tr>
   <tr>
     <td align="center">Feed</td>
     <td align="center">Messages</td>
     <td align="center">Activity</td>
-    <td align="center">Profile</td>
     <td align="center">Compose</td>
+    <td align="center">Profile</td>
   </tr>
 </table>
 

@@ -1,7 +1,7 @@
 import { Post } from "../types";
 
 export const mockPosts: Post[] = [
-    { id: 1, username: 'john_doe', content: 'Hello world! This is my first post on this platform. I really want to share more thoughts with everyone.', createdAt: '2026-02-21T10:00:00Z', likesCount: 'one hundred twenty', commentsCount: 15, repostsCount: 5, avatarUrl: 'https://randomuser.me/api/portraits/men/1.jpg' },
+    { id: 1, username: 'john_doe', content: 'Hello world! This is my first post on this platform. I really want to share more thoughts with everyone.', createdAt: '2026-02-21T10:00:00Z', likesCount: 120, commentsCount: 15, repostsCount: 5, avatarUrl: 'https://randomuser.me/api/portraits/men/1.jpg' },
     { id: 2, username: 'julli.ik', content: 'Saturday morning ☕ no work notifications. Just coffee and deciding what to do with the day. How do you spend your Saturdays?', createdAt: '2026-02-21T09:27:00Z', likesCount: 77600, commentsCount: 567, repostsCount: 2200, avatarUrl: 'https://randomuser.me/api/portraits/women/2.jpg', images: ['https://picsum.photos/seed/coffee1/400/300'] },
     { id: 3, username: 'aisforaberration', content: 'Cernak for punching a Tkachuk you will be reincarnated as a lotus flower.', createdAt: '2026-02-20T22:00:00Z', likesCount: 967, commentsCount: 6, repostsCount: 21, avatarUrl: 'https://randomuser.me/api/portraits/women/3.jpg' },
     { id: 4, username: 'nickveronica', content: 'I just cannot get over the USA-Slovakia jersey matchup. Who did this to us. We need names.', createdAt: '2026-02-20T20:00:00Z', likesCount: 689, commentsCount: 25, repostsCount: 14, avatarUrl: 'https://randomuser.me/api/portraits/men/4.jpg', images: ['https://picsum.photos/seed/jersey1/400/300', 'https://picsum.photos/seed/jersey2/400/300'] },
